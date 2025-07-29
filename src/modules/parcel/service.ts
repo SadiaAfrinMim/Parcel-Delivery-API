@@ -1,6 +1,7 @@
-import { Parcel } from './parcel.model';
+
 import { ParcelStatus } from '../../config/constants';
 import { Types } from 'mongoose';
+import { Parcel } from './model';
 
 export async function createParcel(data: any, senderId: Types.ObjectId) {
   const { receiverId, parcelType, weight, addressFrom, addressTo } = data;
@@ -46,9 +47,16 @@ export async function cancelParcel(parcelId: string, senderId: Types.ObjectId) {
   const parcel = await Parcel.findById(parcelId);
   if (!parcel) throw new Error('Parcel not found');
   if (!parcel.sender.equals(senderId)) throw new Error('Not your parcel');
-  if ([ParcelStatus.DISPATCHED, ParcelStatus.IN_TRANSIT, ParcelStatus.DELIVERED].includes(parcel.status)) {
-    throw new Error('Cannot cancel dispatched or delivered parcel');
-  }
+ const nonCancellableStatuses: string[] = [
+  ParcelStatus.DISPATCHED,
+  ParcelStatus.IN_TRANSIT,
+  ParcelStatus.DELIVERED
+];
+
+// Check if parcel status is in the array
+if (nonCancellableStatuses.includes(parcel.status)) {
+  throw new Error('Cannot cancel dispatched or delivered parcel');
+}
   parcel.status = ParcelStatus.CANCELLED;
   parcel.statusLogs.push({
     status: ParcelStatus.CANCELLED,

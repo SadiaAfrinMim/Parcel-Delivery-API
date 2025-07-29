@@ -1,19 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import { AuthRequest } from '../../middlewares/auth.middleware';
-import {
-  createParcel,
-  getParcelsBySender,
+
+import { sendResponse } from '../../utils/sendResponse';
+import { createParcel, getParcelsBySender,
   getParcelsByReceiver,
   cancelParcel,
   confirmDelivery,
   getAllParcels,
   updateParcelStatusAdmin,
-} from './parcel.service';
-import { sendResponse } from '../../utils/sendResponse';
+
+ } from './service';
+import { Parcel } from './model';
 
 export async function createParcelHandler(req: AuthRequest, res: Response, next: NextFunction) {
   try {
-    const parcel = await createParcel(req.body, req.user._id);
+    let parcel = await createParcel(req.body, req.user._id);
     sendResponse(res, 201, true, parcel, 'Parcel created');
   } catch (err) {
     next(err);
@@ -22,7 +23,8 @@ export async function createParcelHandler(req: AuthRequest, res: Response, next:
 
 export async function getMyParcels(req: AuthRequest, res: Response, next: NextFunction) {
   try {
-    let parcels;
+   
+let parcels: any;
     if (req.user.role === 'sender') {
       parcels = await getParcelsBySender(req.user._id);
     } else if (req.user.role === 'receiver') {

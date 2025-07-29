@@ -1,17 +1,11 @@
 import express from 'express';
-import {
-  createParcelHandler,
-  getMyParcels,
-  cancelParcelHandler,
-  confirmDeliveryHandler,
-  getAllParcelsHandler,
-  adminUpdateParcelStatus,
-  getParcelStatusLog,
-} from './parcel.controller';
+
 
 import { authenticateJWT, authorizeRoles } from '../../middlewares/auth.middleware';
-import { validateRequest } from '../../middlewares/validateRequest';
-import { createParcelSchema, updateParcelStatusSchema } from './parcel.validation';
+import { createParcelSchema, updateParcelStatusSchema } from './validation';
+import { validateRequest } from '../../middlewares/validation.middleware';
+import { adminUpdateParcelStatus, cancelParcelHandler, confirmDeliveryHandler, createParcelHandler, getAllParcelsHandler, getMyParcels, getParcelStatusLog } from './controller';
+
 
 const router = express.Router();
 
@@ -27,4 +21,4 @@ router.patch('/status/:id', authenticateJWT, authorizeRoles('admin'), validateRe
 
 router.get('/:id/status-log', authenticateJWT, authorizeRoles('sender', 'receiver', 'admin'), getParcelStatusLog);
 
-export default router;
+export const parcelRoutes = router

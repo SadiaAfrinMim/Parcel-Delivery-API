@@ -1,7 +1,9 @@
-import { User } from '../user/user.model';
+
 import jwt from 'jsonwebtoken';
-import { env } from '../../config/env';
-import bcrypt from 'bcrypt';
+
+
+import { User } from '../user/model';
+import config from '../../config/config';
 
 export async function registerUser(data: any) {
   const { name, email, password, role } = data;
@@ -19,9 +21,11 @@ export async function loginUser(email: string, password: string) {
   const isMatch = await user.comparePassword(password);
   if (!isMatch) throw new Error('Invalid credentials');
 
-  const token = jwt.sign({ id: user._id, role: user.role }, env.JWT_SECRET, {
+  const token = jwt.sign({ id: user._id, role: user.role }, config.jwt_secret, {
     expiresIn: '7d',
   });
 
   return { token, user };
+
+  
 }

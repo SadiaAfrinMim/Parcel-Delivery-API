@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { getAllUsers, updateUserById } from './user.service';
+
 import { sendResponse } from '../../utils/sendResponse';
+import { getAllUsers, updateUserById } from './service';
 
 export async function getUsers(req: Request, res: Response, next: NextFunction) {
   try {

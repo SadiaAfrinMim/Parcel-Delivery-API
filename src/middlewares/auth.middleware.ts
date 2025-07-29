@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../modules/user/user.model';
-import { env } from '../config/env';
+import config from '../config/config';
+import { User } from '../modules/user/model';
+
 
 export interface AuthRequest extends Request {
   user?: any;
@@ -15,7 +16,7 @@ export const authenticateJWT = async (req: AuthRequest, res: Response, next: Nex
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded: any = jwt.verify(token, env.JWT_SECRET);
+    const decoded: any = jwt.verify(token, config.jwt_secret);
     const user = await User.findById(decoded.id);
     if (!user || user.isBlocked) {
       return res.status(403).json({ message: 'User blocked or not found' });
