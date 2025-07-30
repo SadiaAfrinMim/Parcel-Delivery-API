@@ -1,8 +1,8 @@
-📦 Parcel Delivery API
+### Parcel Delivery API
 A RESTful API for managing parcel deliveries with authentication, role-based access, and delivery tracking. Built with Express.js, TypeScript, MongoDB, and JWT.
 
-🔗 Base URL
-https://assainment-05-5h06owh0h-sadia660s-projects.vercel.app/api
+### Base URL
+https://assainment-05-5h06owh0h-sadia660s-projects.vercel.app
 
 🛠 Technologies Used
 
@@ -18,7 +18,7 @@ Bcrypt for password hashing
 
 Zod for request validation
 
-🧪 Roles
+### Roles
 
 Sender: Creates and cancels parcels
 
@@ -26,13 +26,13 @@ Receiver: Confirms parcel delivery
 
 Admin: Views and updates all parcel statuses
 
-🔐 Authentication Routes
+### 🔐 Authentication Routes
 
 Method	Endpoint	Description
 POST	/auth/register	Register a user
 POST	/auth/login	Login and receive token
 
-📤 Sender Routes
+### 📤 Sender Routes
 
 Requires: JWT token + role = sender
 
@@ -42,7 +42,7 @@ GET	/parcels/me	Get all parcels created by sender
 PATCH	/parcels/cancel/:id	Cancel a parcel by ID
 GET	/parcels/:id/status-log	Get parcel status log by ID
 
-📥 Receiver Routes
+ ### 📥 Receiver Routes
 
 Requires: JWT token + role = receiver
 
@@ -50,7 +50,7 @@ Method	Endpoint	Description
 GET	/parcels/incoming	Get parcels assigned to receiver
 PATCH	/parcels/confirm-delivery/:id	Confirm parcel delivery by ID
 
-🛠 Admin Routes
+### 🛠 Admin Routes
 
 Requires: JWT token + role = admin
 
@@ -58,14 +58,14 @@ Method	Endpoint	Description
 GET	/parcels/	Get all parcels in the system
 PATCH	/parcels/status/:id	Update parcel status by ID
 
-📋 Parcel Status Log
+### 📋 Parcel Status Log
 
 Accessible by: sender, receiver, admin
 
 Method	Endpoint	Description
 GET	/parcels/:id/status-log	Get status change history of parcel
 
-✅ Request Validation
+### ✅ Request Validation
 
 Zod schemas are used to validate requests such as:
 
@@ -73,13 +73,13 @@ createParcelSchema for /parcels/ POST
 
 updateParcelStatusSchema for /parcels/status/:id PATCH
 
-🔐 Authorization
+### 🔐 Authorization
 
 JWT token required for all protected routes.
 
 Middleware: authenticateJWT + authorizeRoles('roleName')
 
-📦 Example Parcel Flow
+### 📦 Example Parcel Flow
 
 Sender registers and logs in
 
@@ -89,15 +89,15 @@ Receiver logs in and confirms delivery
 
 Admin views or updates parcel status
 
-📄 Author
+### 📄 Author
 
 Developed by Sadia Afrin Mim
 
-📝 License
+### 📝 License
 
 This project is for educational and portfolio purposes only.
 
-📁 Folder Structure (optional if you want)
+### 📁 Folder Structure (optional if you want)
 
 src/
 ├── modules/
