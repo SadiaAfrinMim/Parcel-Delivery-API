@@ -2,7 +2,7 @@
 A RESTful API for managing parcel deliveries with authentication, role-based access, and delivery tracking. Built with Express.js, TypeScript, MongoDB, and JWT.
 
 🔗 Base URL
-http://localhost:5000/api
+https://assainment-05-5h06owh0h-sadia660s-projects.vercel.app/api
 
 🛠 Technologies Used
 
