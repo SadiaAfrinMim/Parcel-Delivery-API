@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.parcelRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const auth_middleware_1 = require("../../middlewares/auth.middleware");
+const validation_1 = require("./validation");
+const validation_middleware_1 = require("../../middlewares/validation.middleware");
+const controller_1 = require("./controller");
+const router = express_1.default.Router();
+router.post('/', auth_middleware_1.authenticateJWT, (0, auth_middleware_1.authorizeRoles)('sender'), (0, validation_middleware_1.validateRequest)(validation_1.createParcelSchema), controller_1.createParcelHandler);
+router.get('/me', auth_middleware_1.authenticateJWT, (0, auth_middleware_1.authorizeRoles)('sender'), controller_1.getMyParcels);
+router.get('/incoming', auth_middleware_1.authenticateJWT, (0, auth_middleware_1.authorizeRoles)('receiver'), controller_1.getMyParcels);
+router.patch('/cancel/:id', auth_middleware_1.authenticateJWT, (0, auth_middleware_1.authorizeRoles)('sender'), controller_1.cancelParcelHandler);
+router.patch('/confirm-delivery/:id', auth_middleware_1.authenticateJWT, (0, auth_middleware_1.authorizeRoles)('receiver'), controller_1.confirmDeliveryHandler);
+router.get('/', auth_middleware_1.authenticateJWT, (0, auth_middleware_1.authorizeRoles)('admin'), controller_1.getAllParcelsHandler);
+router.patch('/status/:id', auth_middleware_1.authenticateJWT, (0, auth_middleware_1.authorizeRoles)('admin'), (0, validation_middleware_1.validateRequest)(validation_1.updateParcelStatusSchema), controller_1.adminUpdateParcelStatus);
+router.get('/:id/status-log', auth_middleware_1.authenticateJWT, (0, auth_middleware_1.authorizeRoles)('sender', 'receiver', 'admin'), controller_1.getParcelStatusLog);
+exports.parcelRoutes = router;

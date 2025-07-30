@@ -50,7 +50,7 @@ export async function cancelParcelHandler(req: AuthRequest, res: Response, next:
 export async function confirmDeliveryHandler(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const parcel = await confirmDelivery(req.params.id, req.user._id);
-    sendResponse(res, 200, true, parcel, 'Delivery confirmed');
+    sendResponse(res, 200, true, Parcel, 'Delivery confirmed');
   } catch (err) {
     next(err);
   }
