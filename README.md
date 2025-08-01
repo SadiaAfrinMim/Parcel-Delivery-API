@@ -1,109 +1,106 @@
-### Parcel Delivery API
-A RESTful API for managing parcel deliveries with authentication, role-based access, and delivery tracking. Built with Express.js, TypeScript, MongoDB, and JWT.
+#### 📦 Parcel Delivery API
+A secure and efficient RESTful API for managing parcel deliveries with authentication, role-based access, parcel tracking, and status management. Built with TypeScript, Express.js, MongoDB, and JWT.
+
+### 📌 Project Overview
+The Parcel Delivery API allows users to send, receive, and manage parcels through different roles such as Sender, Receiver, and Admin. Each role has specific responsibilities and access control, making the system organized and secure. It also tracks parcel status history and allows authorized updates.
 
 ### Base URL
 https://assainment-05-5h06owh0h-sadia660s-projects.vercel.app
 
-🛠 Technologies Used
+### 🚀 Features
+🔐 JWT Authentication & Role-Based Access
 
-Node.js, Express.js
+📤 Sender can create and cancel parcels
 
-TypeScript
+📥 Receiver can confirm delivery
 
-MongoDB + Mongoose
+🛠 Admin can view and update parcel statuses
 
-JWT Authentication
+📚 Request validation using Zod
 
-Bcrypt for password hashing
+📜 Parcel status change logs
 
-Zod for request validation
+✅ RESTful API architecture
 
-### Roles
+🧪 Input validation & error handling middleware
 
-Sender: Creates and cancels parcels
+### ⚙️ Tech Stack
+Backend: Node.js, Express.js
 
-Receiver: Confirms parcel delivery
+Language: TypeScript
 
-Admin: Views and updates all parcel statuses
+Database: MongoDB + Mongoose
+
+Authentication: JWT
+
+Validation: Zod
+
+Password Security: Bcrypt
+
+### 🧪 Roles & Permissions
+Role	Permissions
+Sender	Create parcel, cancel parcel, view own
+Receiver	View assigned parcels, confirm delivery
+Admin	View all parcels, update parcel status
 
 ### 🔐 Authentication Routes
-
 Method	Endpoint	Description
-POST	/auth/register	Register a user
-POST	/auth/login	Login and receive token
+POST	/auth/register	Register a new user
+POST	/auth/login	Login & receive JWT token
 
-### 📤 Sender Routes
-
-Requires: JWT token + role = sender
-
+### 📤 Sender Routes (Requires Role: sender)
 Method	Endpoint	Description
-POST	/parcels/	Create a new parcel
-GET	/parcels/me	Get all parcels created by sender
-PATCH	/parcels/cancel/:id	Cancel a parcel by ID
-GET	/parcels/:id/status-log	Get parcel status log by ID
+POST-	/parcels/	Create a new parcel
+GET-	/parcels/me	Get all parcels created by sender
+PATCH	-/parcels/cancel/:id	Cancel a parcel by ID
+GET	-/parcels/:id/status-log	Get parcel status log
 
- ### 📥 Receiver Routes
-
-Requires: JWT token + role = receiver
-
+### 📥 Receiver Routes (Requires Role: receiver)
 Method	Endpoint	Description
-GET	/parcels/incoming	Get parcels assigned to receiver
-PATCH	/parcels/confirm-delivery/:id	Confirm parcel delivery by ID
+GET-	/parcels/incoming	Get parcels assigned to receiver
+PATCH	-/parcels/confirm-delivery/:id	Confirm parcel delivery
+GET-	/parcels/:id/status-log	View status history of parcel
 
-### 🛠 Admin Routes
-
-Requires: JWT token + role = admin
-
+### 🛠 Admin Routes (Requires Role: admin)
 Method	Endpoint	Description
-GET	/parcels/	Get all parcels in the system
-PATCH	/parcels/status/:id	Update parcel status by ID
-
-### 📋 Parcel Status Log
-
-Accessible by: sender, receiver, admin
-
-Method	Endpoint	Description
-GET	/parcels/:id/status-log	Get status change history of parcel
+GET-	/parcels/	Get all parcels in the system
+PATCH-	/parcels/status/:id	Update parcel status by ID
+GET-	/parcels/:id/status-log	View parcel status logs
 
 ### ✅ Request Validation
+createParcelSchema → used in POST /parcels
 
-Zod schemas are used to validate requests such as:
+updateParcelStatusSchema → used in PATCH /parcels/status/:id
 
-createParcelSchema for /parcels/ POST
+All validations are powered by Zod.
 
-updateParcelStatusSchema for /parcels/status/:id PATCH
-
-### 🔐 Authorization
-
-JWT token required for all protected routes.
-
-Middleware: authenticateJWT + authorizeRoles('roleName')
-
-### 📦 Example Parcel Flow
-
+ #### 📦 Example Parcel Lifecycle
 Sender registers and logs in
 
 Sender creates a parcel
 
-Receiver logs in and confirms delivery
+Receiver logs in and views incoming parcel
 
-Admin views or updates parcel status
+Receiver confirms delivery
 
-### 📄 Author
+Admin checks or updates status
 
-Developed by Sadia Afrin Mim
+### 🔐 Authorization Middleware
+authenticateJWT: Verifies JWT token
 
-### 📝 License
+authorizeRoles('role'): Restricts access based on user role
 
-This project is for educational and portfolio purposes only.
+Used to protect sensitive routes.
 
-### 📁 Folder Structure (optional if you want)
-
+### 📁 Project Structure
 src/
+├── config/ // DB & JWT config
+├── middlewares/ // Auth, validation, error handlers
 ├── modules/
-│ ├── auth/
-│ └── parcel/
-├── middlewares/
-├── utils/
-├── config/
-└── server.ts
+│ ├── auth/ // Register, Login controllers & routes
+│ └── parcel/ // Parcel routes, controller, validation
+├── utils/ // Helper utilities
+└── server.ts // App entry point
+
+### 👩‍💻 Developed by
+Sadia Afrin Mim
